@@ -49,6 +49,7 @@ class Team:
     def bench(self):
         return [player for player in self.roster if player not in self.active_lineup]
 
+    # bouns: b add function to calculate the aggregate attack and defense of the team based on the active lineup, w check if el player position is FORWARD or MIDFIELDER for attack, w check if el player position is DEFENDER or GOALKEEPER for defense
     def get_aggregate_attack(self):
         forward_and_midfielders = [player for player in self.active_lineup if player.position in ["FORWARD", "MIDFIELDER"]]
         return sum(player.get_effective_attack() for player in forward_and_midfielders) / len(forward_and_midfielders) if forward_and_midfielders else 0.0
@@ -83,6 +84,7 @@ class Team:
             if not player.is_eligible():
                 self.remove_disciplined_player(player)
 
+    # b nbadel el players elly f bench
     def swipe_players_from_the_bench(self):
         lowest_stamina_player = min(self.active_lineup, key=lambda p: p.stamina)
         candidates = [p for p in self.bench if p.position == lowest_stamina_player.position]
@@ -183,7 +185,7 @@ class Match:
         else:
             return "DRAW"
 
-
+# bouns level el wa7sh : AI to act like a coach that changes the stratigy during the match
 class MatchAI:
     def __init__(self, controlled_team, risk_tolerance = 0.5, decision_log = None, model = "gemini-2.0-flash"):
         self.controlled_team = controlled_team
@@ -296,7 +298,7 @@ if __name__ == "__main__":
             ai_away.apply_decision(action_away)
 
 
-    # bouns: b add function to print the final score, w check if el home team score > el away team score, w if yes, el home team is the winner, w check if el home team score < el away team score, w if yes, el away team is the winner, w else, el match is a draw
+    # bouns: b add function to print the final score, w check if el home team score > el away team score, w if yes, el home team is the winner, w check if el home team score < el away team score, w if yes, el away team is the winner, w else, el match is a draw 
     match.phase = "FINISHED"
     print(f"number of players in {match.home_team.country_name} active lineup: {len(match.home_team.active_lineup)}")
     print(f"number of players in {match.away_team.country_name} active lineup: {len(match.away_team.active_lineup)}")
@@ -342,7 +344,7 @@ if __name__ == "__main__":
 
 
 
-    # b3d el 90 minutes, el match phase tb2a FINISHED, w print el final score w el winner, if draw
+    # b3d el 90 minutes, el match phase tb2a FINISHED, w print el final score w el winner, if draw then PENALTIES
     match_again.phase = "FINISHED"
     print(f"number of players in {match_again.home_team.country_name} active lineup: {len(match_again.home_team.active_lineup)}")
     print(f"number of players in {match_again.away_team.country_name} active lineup: {len(match_again.away_team.active_lineup)}")
